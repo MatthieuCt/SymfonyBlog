@@ -1,0 +1,21 @@
+BlogBundle\Entity\Tag:
+    type: entity
+    table: null
+    repositoryClass: BlogBundle\Repository\TagRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    manyToMany:
+        articles:
+            targetEntity: Article
+            mappedBy: tags
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+    lifecycleCallbacks: {  }

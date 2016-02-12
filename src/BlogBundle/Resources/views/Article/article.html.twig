@@ -1,0 +1,37 @@
+{% extends 'BlogBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>{{ article.name }}</h1>
+    <p>Ecris par {{ article.author.name }}
+        |
+        Tags:
+        {% for tag in article.tags %}
+            {{ tag.name }}
+        {% else %}
+            Aucun Tag
+        {% endfor %}
+        |
+        Categorie: {{ article.category.name }}
+        |
+        Publié le {{ article.date|date("d/m/Y") }}
+    </p>
+    <hr>
+    <p>{{ article.content }}</p>
+    <hr>
+    <h1>Commentaires</h1>
+    <ul>
+        {% for comment in comments %}
+            <p>
+                {{ comment.author }} | Ecris le {{ comment.date|date('d/m/Y') }}
+                <br>
+                {{ comment.content }}
+            </p>
+        {% else %}
+            <li>Aucun commentaire</li>
+        {% endfor %}
+    </ul>
+    <h2>Ajoutes un commentaire</h2>
+
+    {{ form_start(comment_form) }}
+    {{ form_end(comment_form) }}
+{% endblock %}

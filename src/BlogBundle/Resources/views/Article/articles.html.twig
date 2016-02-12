@@ -1,0 +1,38 @@
+{% extends 'BlogBundle::layout.html.twig' %}
+
+{% block body %}
+    {% if app.user %}
+        <h2>
+            <a href="{{ path('blog_logout')}}">Déconnectes toi si t'en as marre de tous ces posts nazes !</a>
+        </h2>
+    {% else %}
+        <h2>
+            <a href="{{ path('blog_login')}}">Connectes toi pour poster pleins de trucs !</a>
+        </h2>
+    {% endif %}
+    <ul>
+        {% for article in articles %}
+            <li><a href="{{ path('blog_article', {'id': article.id}) }}">{{ article.name }}</a>
+                 |
+                Catégorie: <a href="{{ path('blog_articles_by_category', {'category_name': article.category.name}) }}"> {{ article.category.name }} </a>
+                |
+                Auteur: <a href="{{ path('blog_articles') }}"> {{ article.author.name }} </a>
+                |
+                Tags:
+                {% for tag in article.tags %}
+                    {%  if loop.last %}
+                        {{ tag.name }}
+                    {% else %}
+                        {{ tag.name }} -
+                    {% endif %}
+                {% else %}
+                    Aucun Tag
+                {% endfor %}
+                |
+                Commentaires: {{ article.comments|length }} </a>
+            </li>
+        {% else %}
+            <li>No articles found</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

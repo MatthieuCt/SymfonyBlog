@@ -1,0 +1,45 @@
+{% extends 'BlogBundle::layout.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(search_form) }}
+    {{ form_end(search_form) }}
+
+    <h1>Articles par nom</h1>
+    <ul>
+        {% for article in articles_by_name %}
+            <li>
+                <a href="{{ path('blog_article', {'id': article.id}) }}">{{ article.name }}</a>
+                |
+                Auteur: {{ article.author.name }}
+                |
+                Catégorie: {{ article.category.name }}
+                |
+                Tags:
+                {% for tag in article.tags %}
+                    {{ tag.name }}
+                {% else %}
+                    Aucun Tag
+                {% endfor %}
+            </li>
+        {% else %}
+            <li>No articles found</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Articles par Tag</h1>
+    <ul>
+        {% for article in articles_by_tag %}
+            <li>
+                <a href="{{ path('blog_article', {'id': article.id}) }}">{{ article.name }}</a>
+                |
+                Auteur: {{ article.author.name }}
+                |
+                Catégorie: {{ article.category.name }}
+            </li>
+        {% else %}
+            <li>No articles found</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

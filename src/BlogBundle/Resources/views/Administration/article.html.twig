@@ -1,0 +1,10 @@
+{% extends 'BlogBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>{{ article.name }}</h1>
+    <p>Ecris par {{ article.author.name }} || Categorie: {{ article.category.name }}</p>
+    <hr>
+    <p>{{ article.content }}</p>
+    <hr>
+    <p>publié le {{ article.date|date("d/m/Y") }}</p>
+{% endblock %}
