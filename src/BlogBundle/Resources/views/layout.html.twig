@@ -6,6 +6,9 @@
     {% endstylesheets %}
 </head>
 <body>
+
+{% include '@Blog/header.html.twig' %}
+
     {% if not app.request.cookies.has('cookie') %}
         <div class="cookies">
             <h1>Bienvenue sur la page le nouveau !</h1>
@@ -14,7 +17,7 @@
 
 
 
-{% block body %}
+{% block content %}
 {% endblock %}
 </body>
 </html>

@@ -1,18 +1,21 @@
-<a href="{{ path('blog_article', {'id': article.id}) }}">{{ article.name }}</a>
-|
-Catégorie: <a href="{{ path('blog_articles_by_category', {'category_name': article.category.name}) }}"> {{ article.category.name }} </a>
-|
-Auteur: <a href="{{ path('blog_articles') }}"> {{ article.author.name }} </a>
-|
-Tags:
+<span class="title"><a href="{{ path('blog_article', {'id': article.id}) }}">{{ article.name }}</a></span>
+<p>
+    Catégorie: <a href="{{ path('blog_articles_by_category', {'category_name': article.category.name}) }}"> {{ article.category.name }} </a>
+<br>
+Auteur: {{ article.author.name }}
+<br>
 {% for tag in article.tags %}
     {%  if loop.last %}
-        {{ tag.name }}
+       <div class="chip">
+           {{ tag.name }}
+       </div>
     {% else %}
-        {{ tag.name }} -
+<div class="chip"> {{ tag.name }} </div> -
     {% endif %}
 {% else %}
     Aucun Tag
 {% endfor %}
-|
+<br>
 Commentaires: {{ article.comments|length }}
+
+</p>

@@ -1,0 +1,20 @@
+<nav>
+    <div class="nav-wrapper">
+        <a href="{{ path('blog_homepage') }}" class="brand-logo left">Blog</a>
+        <ul id="nav-mobile" class="right">
+            <li> <a href="{{ path('blog_homepage') }} ">Accueil</a> </li>
+            <li> <a href="{{ path('blog_articles') }} ">Articles</a> </li>
+            {% if app.user %}
+                <li>
+                    <a href="{{ path('blog_administration')}}">Administration</a>
+                </li>
+                <li>
+                    <a href="{{ path('blog_logout')}}">Se Déconnecter</a>
+                </li>
+                {% else %}
+                    <li>
+                        <a href="{{ path('blog_login')}}">Se Connecter</a>
+                    </li>
+            {% endif %}
+    </div>
+</nav>

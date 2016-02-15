@@ -1,15 +1,6 @@
 {% extends 'BlogBundle::layout.html.twig' %}
 
-{% block body %}
-    {% if app.user %}
-        <h2>
-            <a href="{{ path('blog_logout')}}">Déconnectes toi si t'en as marre de tous ces posts nazes !</a>
-        </h2>
-    {% else %}
-        <h2>
-            <a href="{{ path('blog_login')}}">Connectes toi pour poster pleins de trucs !</a>
-        </h2>
-    {% endif %}
+{% block content %}
 
     {% include '@Blog/Article/list.html.twig' %}
 

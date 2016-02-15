@@ -40,9 +40,9 @@ class CategoryController extends Controller
         $category = $this->getDoctrine()->getRepository('BlogBundle:Category')->findOneBy(['name' => $category_name]);
         if($category)
         {
-            $articles = $this->get('blog.pagination')->getArticlesByCategory(2,$page, $category);
+            $articles = $this->get('blog.pagination')->getArticlesByCategory(10,$page, $category);
 
-            $pagination =  $this->get('blog.pagination')->getCategoryPagination(2, $category);
+            $pagination =  $this->get('blog.pagination')->getCategoryPagination(10, $category);
         }else {
             $articles = null;
             $pagination = null;
