@@ -2,6 +2,57 @@
 
 {% block body %}
 
-    {{ form_start(form_article) }}
-    {{ form_end(form_article) }}
+    <div>
+        <div>
+            <h1>Tous les articles</h1>
+            <ul>
+                {% for article in articles %}
+                <li>{{ article.name }} | <a href="{{ path('blog_article_delete',{'id':article.id}) }}">Delete</a> </li>
+                {% else %}
+                <li>Pas d'articles</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h1>Ajouter un article</h1>
+            {% form_theme form_article 'BlogBundle::fields.html.twig' %}
+            {{ form_start(form_article) }}
+            {{ form_end(form_article) }}
+        </div>
+    </div>
+
+    <hr>
+
+    <div>
+        <h1>Toutes les catégories</h1>
+        <ul>
+            {% for category in categories %}
+                <li>{{ category.name }} | <a href="{{ path('blog_category_delete',{'id':category.id}) }}">Delete</a> </li>
+            {% else %}
+                <li>Pas de catégories</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <h1>Ajouter une catégorie</h1>
+    {% form_theme form_category 'BlogBundle::fields.html.twig' %}
+    {{ form_start(form_category) }}
+    {{ form_end(form_category) }}
+
+    <hr>
+
+    <div>
+        <h1>Tous les tags</h1>
+        <ul>
+            {% for tag in tags %}
+                <li>{{ tag.name }} | <a href="{{ path('blog_tag_delete',{'id':tag.id}) }}">Delete</a> </li>
+            {% else %}
+                <li>Pas de tags</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <h1>Ajouter un tag</h1>
+    {% form_theme form_tag 'BlogBundle::fields.html.twig' %}
+    {{ form_start(form_tag) }}
+    {{ form_end(form_tag) }}
 {% endblock %}

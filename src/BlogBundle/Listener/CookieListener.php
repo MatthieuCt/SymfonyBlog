@@ -8,10 +8,10 @@ class CookieListener
 {
     public function checkCookies(GetResponseEvent $event)
     {
-        $response = new Response();
-        $cookies = $event->getRequest()->cookies;
-
-//        print_r($cookies);
-
+//        $cookies = $event->getRequest()->cookies->all();
+        $cookie = $event->getRequest()->cookies->get('cookie');
+        if (is_null($cookie)) {
+            $event->getRequest()->query->set('cookie', $cookie);
+        }
     }
 }

@@ -17,38 +17,16 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class CategoryController extends Controller
 {
 
-    public function newAction(Request $request)
+    public function deleteAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, 'Unable to access this page!');
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $article = new Article();
-        $article->setAuthor($user);
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('BlogBundle:Category')->findOneBy(['id' => $id]);
+        $em->remove($category);
+        $em->flush();
+        return $this->redirectToRoute('blog_administration', ['category_delete' => true]);
 
-        $form = $this->createFormBuilder($article)
-            ->add('name', TextType::class)
-            ->add('content', TextType::class)
-            ->add('category', EntityType::class, array(
-                'class' => 'BlogBundle:Category',
-                'choice_label' => 'name',
-            ))
-            ->add('date', DateTimeType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
-            ->getForm();
-
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($article);
-            $em->flush($article);
-            return $this->redirectToRoute('blog_article', ['id' => $article->getId()]);
-        }
-
-        return $this->render('BlogBundle:Article:new.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
 
     public function categoriesAction(Request $request, $category_name)

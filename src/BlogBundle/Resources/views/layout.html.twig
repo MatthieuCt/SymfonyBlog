@@ -1,11 +1,26 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    {#{% stylesheets 'bundles/blog/css/*' %}#}
-    {#<link rel='stylesheet' href="{{asset_url}}"/>#}
-    {#{% endstylesheets %}#}
+    {% stylesheets '@BlogBundle/Resources/public/materialize-src/sass/materialize.scss' filter="sass"%}
+    <link rel='stylesheet' href="{{asset_url}}"/>
+    {% endstylesheets %}
 </head>
 <body>
+<ul class="cookies">
+    {#{% for key, cookie in app.request.query.get('cookie') %}#}
+        {#<li class="cookie">#}
+            {#<span class="key">{{ key }}:</span> <span class="value">{{ cookie }}</span>#}
+        {#</li>#}
+    {#{% endfor %}#}
+    {% if app.request.query.get('cookie') %}
+    <h1>Plusieurs fois</h1>
+    {% else %}
+    <h1>First time</h1>
+    {% endif %}
+
+</ul>
+
+
 {% block body %}
 {% endblock %}
 </body>

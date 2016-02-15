@@ -3,6 +3,7 @@
 {% block body %}
     <h1>Index</h1>
 
+    {% form_theme search_form 'BlogBundle::fields.html.twig' %}
     {{ form_start(search_form) }}
     {{ form_end(search_form) }}
 

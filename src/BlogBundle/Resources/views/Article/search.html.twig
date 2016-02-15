@@ -9,18 +9,7 @@
     <ul>
         {% for article in articles_by_name %}
             <li>
-                <a href="{{ path('blog_article', {'id': article.id}) }}">{{ article.name }}</a>
-                |
-                Auteur: {{ article.author.name }}
-                |
-                Catégorie: {{ article.category.name }}
-                |
-                Tags:
-                {% for tag in article.tags %}
-                    {{ tag.name }}
-                {% else %}
-                    Aucun Tag
-                {% endfor %}
+                {% include '@Blog/Article/article.template.html.twig' %}
             </li>
         {% else %}
             <li>No articles found</li>
@@ -31,15 +20,12 @@
     <ul>
         {% for article in articles_by_tag %}
             <li>
-                <a href="{{ path('blog_article', {'id': article.id}) }}">{{ article.name }}</a>
-                |
-                Auteur: {{ article.author.name }}
-                |
-                Catégorie: {{ article.category.name }}
+                {% include '@Blog/Article/article.template.html.twig' %}
             </li>
         {% else %}
-            <li>No articles found</li>
+            <li>Aucun article correspond à ce tag.</li>
         {% endfor %}
     </ul>
+
 {% endblock %}
 

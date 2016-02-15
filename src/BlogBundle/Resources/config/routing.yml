@@ -27,9 +27,23 @@ blog_comment:
     defaults: { _controller: BlogBundle:Article:comment }
     methods: [POST]
 
-blog_article_new:
-    path:     /article/new
-    defaults: { _controller: BlogBundle:Article:new }
+blog_article_delete:
+    path:     /article/delete/{id}
+    requirements:
+      id: \d+
+    defaults: { _controller: BlogBundle:Article:delete }
+
+blog_category_delete:
+    path:     /category/delete/{id}
+    requirements:
+      id: \d+
+    defaults: { _controller: BlogBundle:Category:delete }
+
+blog_tag_delete:
+    path:     /tag/delete/{id}
+    requirements:
+      id: \d+
+    defaults: { _controller: BlogBundle:Tag:delete }
 
 blog_article_search:
     path:     /search/{search}

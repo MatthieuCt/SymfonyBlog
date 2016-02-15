@@ -17,38 +17,16 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class ArticleController extends Controller
 {
 
-    public function newAction(Request $request)
+    public function deleteAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, 'Unable to access this page!');
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $article = new Article();
-        $article->setAuthor($user);
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository('BlogBundle:Article')->findOneBy(['id' => $id]);
+        $em->remove($article);
+        $em->flush();
+        return $this->redirectToRoute('blog_administration', ['article_delete' => true]);
 
-        $form = $this->createFormBuilder($article)
-            ->add('name', TextType::class)
-            ->add('content', TextType::class)
-            ->add('category', EntityType::class, array(
-                'class' => 'BlogBundle:Category',
-                'choice_label' => 'name',
-            ))
-            ->add('date', DateTimeType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
-            ->getForm();
-
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($article);
-            $em->flush($article);
-            return $this->redirectToRoute('blog_article', ['id' => $article->getId()]);
-        }
-
-        return $this->render('BlogBundle:Article:new.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
 
     public function articleAction(Request $request, $id)
@@ -106,6 +84,12 @@ class ArticleController extends Controller
         $articles_by_name = $this->get('blog.search')->searchArticle($search);
         $articles_by_tag = $this->get('blog.search')->searchTag($search);
         $search_form = $this->createForm(SearchType::class);
+        $search_form->handleRequest($request);
+
+        if ($search_form->isValid()) {
+            $search = (string)$request->request->get('search')['search'];
+            return $this->redirectToRoute('blog_article_search', ['search' => $search]);
+        }
         return $this->render('BlogBundle:Article:search.html.twig',[
             'search_form'           => $search_form->createView(),
             'articles_by_name'      => $articles_by_name,
