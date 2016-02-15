@@ -11,6 +11,10 @@ services:
         class: BlogBundle\Services\CommentManager
         arguments: [@doctrine]
 
+    blog.pagination:
+        class: BlogBundle\Services\PaginationManager
+        arguments: [@doctrine]
+
     blog.cookie_listener:
         class: BlogBundle\Listener\CookieListener
         tags:

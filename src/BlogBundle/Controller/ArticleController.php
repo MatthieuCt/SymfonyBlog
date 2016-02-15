@@ -46,11 +46,21 @@ class ArticleController extends Controller
 
     public function articlesAction(Request $request)
     {
-        $articles = $this->getDoctrine()->getRepository('BlogBundle:Article')->findAll();
+//        $articles = $this->getDoctrine()->getRepository('BlogBundle:Article')->findAll();
+        if(isset($_GET['p']))
+        {
+            $page = $_GET['p'];
+        } else{
+            $page = 1;
+        }
+
+        $articles = $this->get('blog.pagination')->getArticles(10,$page);
+
+        $pagination =  $this->get('blog.pagination')->getPagination(10);
 
         return $this->render('BlogBundle:Article:articles.html.twig',[
-            'articles' => $articles,
-
+            'articles'      => $articles,
+            'pagination'    => $pagination
         ]);
     }
 

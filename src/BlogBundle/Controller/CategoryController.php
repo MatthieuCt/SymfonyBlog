@@ -31,33 +31,25 @@ class CategoryController extends Controller
 
     public function categoriesAction(Request $request, $category_name)
     {
+        if(isset($_GET['p']))
+        {
+            $page = $_GET['p'];
+        } else{
+            $page = 1;
+        }
         $category = $this->getDoctrine()->getRepository('BlogBundle:Category')->findOneBy(['name' => $category_name]);
         if($category)
         {
-            $articles = $this->getDoctrine()->getRepository('BlogBundle:Article')->findByCategory($category);
+            $articles = $this->get('blog.pagination')->getArticlesByCategory(2,$page, $category);
+
+            $pagination =  $this->get('blog.pagination')->getCategoryPagination(2, $category);
         }else {
             $articles = null;
+            $pagination = null;
         }
         return $this->render('BlogBundle:Article:articles.html.twig',[
-            'articles' => $articles,
-
-        ]);
-    }
-
-    public function searchAction(Request $request, $search)
-    {
-        $articles_by_name = $this->get('search')->searchArticle($search);
-        $articles_by_tag = $this->get('search')->searchTag($search);
-//        print_r($articles_by_tag);
-//        $search_form = $this->createFormBuilder()
-//            ->add('name', TextType::class)
-//            ->add('save', SubmitType::class, array('label' => 'Rechercher'))
-//            ->getForm();
-        $search_form = $this->createForm(SearchType::class);
-        return $this->render('BlogBundle:Article:search.html.twig',[
-            'search_form'   => $search_form->createView(),
-            'articles_by_name'      => $articles_by_name,
-            'articles_by_tag'       => $articles_by_tag,
+            'articles'      => $articles,
+            'pagination'    => $pagination
         ]);
     }
 }

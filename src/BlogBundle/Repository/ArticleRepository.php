@@ -88,23 +88,40 @@ class ArticleRepository extends EntityRepository
         }
     }
 
+    public function countAll()
+    {
+        try {
+            $articles = $this
+                ->createQueryBuilder('p')
+                ->select('count(p)')
+                ->getQuery()
+                ->getResult();
 
-//    public function searchByTag($search)
-//    {
-//        try {
-//            $articles = $this
-//                ->createQueryBuilder('p')
-//                ->where('p.tags = :tag')
-//                ->setParameter('tag', $search)
-//                ->getQuery()
-//                ->getResult();
-//            // ->getOneOrNullResult() équivalent au getSingleResult()
-//
-//            return $articles;
-//        } catch (\Exception $ex) {
-////            print_r($ex);
-////            return null;
-//            throw new \Exception($ex);
-//        }
-//    }
+            return $articles;
+        } catch (\Exception $ex) {
+//            print_r($ex);
+//            return null;
+            throw new \Exception($ex);
+        }
+    }
+
+    public function countAllByCat(Category $category)
+    {
+        try {
+            $articles = $this
+                ->createQueryBuilder('p')
+                ->select('count(p)')
+                ->where('p.category = :category')
+                ->setParameter('category', $category)
+                ->getQuery()
+                ->getResult();
+
+            return $articles;
+        } catch (\Exception $ex) {
+//            print_r($ex);
+//            return null;
+            throw new \Exception($ex);
+        }
+    }
+
 }

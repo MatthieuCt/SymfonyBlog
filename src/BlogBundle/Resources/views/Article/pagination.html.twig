@@ -1,0 +1,12 @@
+<ul>
+    {% for page in 1..pagination %}
+    <li {% if (app.request.get('p')) and (app.request.get('p') == page) %}
+        class="active"
+        {% endif %}
+        >
+        <a href="?p={{ page }}">
+            {{ page }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
